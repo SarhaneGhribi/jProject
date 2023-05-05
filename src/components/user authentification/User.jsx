@@ -24,8 +24,8 @@ import axios from 'axios';
       {submitted ? <h3>Welcome {donername}</h3> : null}
           <form onSubmit={(e)=>{postUser(donername);handleSubmit(e)}}>
       <label>
-        Input:
-        <input type="text" donername={donername} onChange={handleChange} />
+        
+        <input type="text" donername={donername} onChange={handleChange} placeholder='Input your name please'/>
       </label>
       <button type="submit">Submit</button>
     </form>
