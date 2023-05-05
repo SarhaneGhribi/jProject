@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import "../foundations/Foundations.css"
 import SearchBar from '../search bar/SearchBar';
 <foundations />
- function Foundations({dataF}) {
+ function Foundations({dataF,fetchF}) {
 const [donations,setdonation]=useState(null)
 const [submitted, setSubmitted] = useState(false);
   console.log("foundation",dataF)
@@ -18,7 +18,7 @@ const [submitted, setSubmitted] = useState(false);
  if(updatedFunds<=100){
   axios.patch(`http://localhost:5000/foundations/${name}`,{funds:updatedFunds})
   .then(suc=>{console.log(suc.data)
-  funds=updatedFunds})
+    fetchF()})
   .catch(error => console.log(error))
  }  
  else{
@@ -30,18 +30,18 @@ const [submitted, setSubmitted] = useState(false);
 
   return (
     <div>
-     <SearchBar/>
+    
       {dataF.map((e,i)=>
       <div className='comp' key={e.idfoundations}>
         <h2 >{e.name}</h2>
         <img className='logo' src={e.logo}alt="" />
-        {submitted ? <h2>{e.funds}</h2>: null}
+        {submitted ? <h2>{e.funds} TND</h2>: null}
     <form onSubmit={(event) => handleSubmit(event,e.funds,e.name)}>
       <label htmlFor='donation-amount'>Enter your donation amount:</label>
       <input
         id='donation-amount'
         type='text'
-        placeholder='Enter amount in USD'
+        placeholder='Enter amount in TND'
         aria-label='Donation amount'
         required
       />

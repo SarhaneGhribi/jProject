@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import User from './components/user authentification/User';
 import Foundations from './components/foundations/Foundation.jsx';
 import axios from 'axios';
+import SearchBar from './components/search bar/SearchBar';
 
 function App() {
   const[dataF,setDataF]=useState([])
@@ -21,8 +22,11 @@ function App() {
   return (
     <div className="App">
     <h1>Ghribi Foundation</h1>
-           <User/>
-      <Foundations dataF={dataF}/>
+       <User/>
+      <Foundations dataF={dataF} fetchF={fetchF}/>
+      <SearchBar setDataF={setDataF}/>
+       
+       
     </div>
   );
 }
