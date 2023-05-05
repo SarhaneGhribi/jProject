@@ -15,7 +15,7 @@ const [submitted, setSubmitted] = useState(false);
     setdonation(donationAmount);
      const updatedFunds = Number(funds) + Number(donations);
      console.log("money",updatedFunds)
- if(updatedFunds<=100){
+ if(updatedFunds<=1000){
   axios.patch(`http://localhost:5000/foundations/${name}`,{funds:updatedFunds})
   .then(suc=>{console.log(suc.data)
     fetchF()})
@@ -23,7 +23,8 @@ const [submitted, setSubmitted] = useState(false);
  }  
  else{
   axios.delete(`http://localhost:5000/foundations/${name}`)
-  .then(suc=> console.log(suc.data))
+  .then(suc=> {console.log(suc.data)
+    fetchF()})
   .catch(error => console.log(error))
  }
   }
