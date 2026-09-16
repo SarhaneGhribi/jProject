@@ -1,32 +1,21 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 import "../foundations/Foundations.css"
-import SearchBar from '../search bar/SearchBar';
-<foundations />
- function Foundations({dataF,fetchF}) {
-const [donations,setdonation]=useState(null)
+
+function Foundations({dataF,fetchF}) {
 const [submitted, setSubmitted] = useState(false);
   console.log("foundation",dataF)
 
   const handleSubmit = (event,funds,name) => {
     event.preventDefault();
-    setSubmitted(true); 
+    setSubmitted(true);
     const donationAmount = event.target.elements['donation-amount'].value;
-    setdonation(donationAmount);
-     const updatedFunds = Number(funds) + Number(donations);
+     const updatedFunds = Number(funds) + Number(donationAmount);
      console.log("money",updatedFunds)
- if(updatedFunds<=1000){
   axios.patch(`http://localhost:5000/foundations/${name}`,{funds:updatedFunds})
   .then(suc=>{console.log(suc.data)
     fetchF()})
   .catch(error => console.log(error))
- }  
- else{
-  axios.delete(`http://localhost:5000/foundations/${name}`)
-  .then(suc=> {console.log(suc.data)
-    fetchF()})
-  .catch(error => console.log(error))
- }
   }
 
   return (
