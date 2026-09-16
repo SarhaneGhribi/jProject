@@ -2,6 +2,7 @@ import './App.css';
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home.jsx';
+import MyDonations from './pages/MyDonations.jsx';
 import AccountStatus from './components/auth/AccountStatus.jsx';
 import Login from './components/auth/Login.jsx';
 import Signup from './components/auth/Signup.jsx';
@@ -16,6 +17,7 @@ function App() {
       <h1>Ghribi Foundation</h1>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/my-donations" element={<MyDonations />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/verify-otp" element={<VerifyOtp />} />
