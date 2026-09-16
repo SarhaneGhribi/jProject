@@ -1,70 +1,92 @@
-# Getting Started with Create React App
+# Ghribi Foundation
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A full-stack donation platform: browse foundations, create an account, and donate to the causes you care about. Built with React (Create React App) on the frontend and Express + MySQL on the backend.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- Browse foundations with a live funds/goal progress bar and search by name
+- Email + password signup with OTP email verification, or sign in with Google
+- JWT-based sessions, forgot/reset password flow
+- Donating requires being signed in; donations are linked to your account
+- "My donations" page with your full donation history and total given
 
-### `npm start`
+## Tech stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Frontend:** React 18 (Create React App), React Router, Axios
+- **Backend:** Node.js, Express, MySQL (`mysql2`)
+- **Auth:** JWT, bcrypt, Google Identity Services (ID token verified server-side with `google-auth-library`)
+- **Email:** Nodemailer (OTP codes and password-reset links; falls back to logging to the console if SMTP isn't configured, so the app still runs without a mail provider in dev)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Project structure
 
-### `npm test`
+```
+backend/              Express API (port 5000)
+  auth/                authentication (signup, OTP, login, Google, password reset)
+  donations/           donation creation + history
+  foundations/         foundation CRUD
+  doners/              legacy, unused by the current frontend
+  db.js                shared MySQL connection
+src/                   React app (port 3000)
+  api/                 axios wrappers for the backend
+  components/          UI components (auth forms, foundation cards, search)
+  context/AuthContext  session state
+  pages/                routed pages (Home, My Donations)
+schema.sql             MySQL schema
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Prerequisites
 
-### `npm run build`
+- Node.js and npm
+- A running MySQL server
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Setup
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. **Install dependencies** (frontend and backend have separate `package.json`s):
+   ```
+   npm install
+   cd backend && npm install && cd ..
+   ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2. **Create the database** and load the schema:
+   ```
+   mysql -u root -p < schema.sql
+   ```
+   This creates a `myfoundation` schema with the `foundations`, `doners`, `users`, `otp_codes`, `password_resets`, and `donations` tables.
 
-### `npm run eject`
+3. **Configure environment variables** — copy each example file and fill in your own values:
+   ```
+   cp .env.example .env
+   cp backend/.env.example backend/.env
+   ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+   **`backend/.env`**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+   | Variable | Purpose |
+   | --- | --- |
+   | `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME` | MySQL connection |
+   | `JWT_SECRET`, `JWT_EXPIRES_IN` | signs login sessions |
+   | `GOOGLE_CLIENT_ID` | Google OAuth client ID (see below) |
+   | `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM` | outgoing email; leave blank in dev to just log emails to the console |
+   | `OTP_EXPIRY_MINUTES`, `PASSWORD_RESET_EXPIRY_MINUTES` | token lifetimes |
+   | `FRONTEND_URL` | used to build the link in password-reset emails |
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+   **`.env`** (frontend)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+   | Variable | Purpose |
+   | --- | --- |
+   | `REACT_APP_API_URL` | backend base URL |
+   | `REACT_APP_GOOGLE_CLIENT_ID` | must match `GOOGLE_CLIENT_ID` above |
 
-## Learn More
+   To enable **Google sign-in**: create an OAuth client ID in [Google Cloud Console](https://console.cloud.google.com/apis/credentials) (type "Web application", with `http://localhost:3000` as an authorized JavaScript origin), and put the same client ID in both `.env` files. Without it, the Google button just shows as unavailable.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+4. **Run it** (two terminals):
+   ```
+   cd backend && npm start   # API on http://localhost:5000
+   npm start                 # app on http://localhost:3000
+   ```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Available scripts
 
-### Code Splitting
+**Frontend** (repo root): `npm start`, `npm run build`, `npm test`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**Backend** (`backend/`): `npm start` (runs the API with nodemon, auto-restarting on changes)
