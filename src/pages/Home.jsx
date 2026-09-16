@@ -20,10 +20,31 @@ function Home() {
         fetchF()
     }, [])
 
+    const totalRaised = dataF.reduce((sum, f) => sum + Number(f.funds || 0), 0)
+
     return (
         <>
-            <Foundations dataF={dataF} fetchF={fetchF} />
-            <SearchBar setDataF={setDataF} />
+            <section className="hero">
+                <h1>Support causes that matter</h1>
+                <p>
+                    Ghribi Foundation connects you with vetted foundations across Tunisia.
+                    Pick a cause below and see your donation reflected instantly.
+                </p>
+                <div className="impact-stats">
+                    <div className="impact-stat">
+                        <strong>{dataF.length}</strong>
+                        <span>Foundations</span>
+                    </div>
+                    <div className="impact-stat">
+                        <strong>{totalRaised.toLocaleString()} TND</strong>
+                        <span>Raised so far</span>
+                    </div>
+                </div>
+            </section>
+            <div className="page-container">
+                <SearchBar setDataF={setDataF} fetchF={fetchF} />
+                <Foundations dataF={dataF} fetchF={fetchF} />
+            </div>
         </>
     )
 }

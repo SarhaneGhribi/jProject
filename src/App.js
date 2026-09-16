@@ -1,6 +1,6 @@
 import './App.css';
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Link } from 'react-router-dom';
 import Home from './pages/Home.jsx';
 import MyDonations from './pages/MyDonations.jsx';
 import AccountStatus from './components/auth/AccountStatus.jsx';
@@ -13,8 +13,13 @@ import ResetPassword from './components/auth/ResetPassword.jsx';
 function App() {
   return (
     <div className="App">
-      <AccountStatus />
-      <h1>Ghribi Foundation</h1>
+      <header className="site-header">
+        <Link to="/" className="site-brand">
+          <span className="site-brand-mark" aria-hidden="true">G</span>
+          Ghribi Foundation
+        </Link>
+        <AccountStatus />
+      </header>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/my-donations" element={<MyDonations />} />
@@ -24,6 +29,9 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
       </Routes>
+      <footer className="site-footer">
+        Ghribi Foundation &mdash; giving made simple.
+      </footer>
     </div>
   );
 }

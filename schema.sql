@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS `myfoundation`.`foundations` (
   `name` VARCHAR(70) NOT NULL,
   `funds` INT NOT NULL,
   `logo` VARCHAR(255) NULL,
+  `goal` INT NULL,
   PRIMARY KEY (`idfoundations`))
 ENGINE = InnoDB;
 
