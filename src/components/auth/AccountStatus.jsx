@@ -11,6 +11,7 @@ function AccountStatus() {
         return (
             <div className="account-status">
                 <span>Signed in as {user.email}</span>
+                <Link to="/my-donations">My donations</Link>
                 <button type="button" onClick={logout}>
                     Log out
                 </button>
