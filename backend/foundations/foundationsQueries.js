@@ -1,49 +1,36 @@
-// I imported mysql2 to create a connection with my database
-const sql = require("mysql2")
-// I created a connection with my databse using my configurations
-const conn= sql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "Sarhane1991.",
-    database: "myfoundation",
-  }
-)  
-// I connected with my database
-conn.connect((err)=>{
-    if(err)console.log("database not connected")
-    else console.log("database connected")
-})
+// shared database connection (configured via environment variables, see backend/.env.example)
+const conn = require("../db")
 // this function gets all of the foundations from the foundation table in my database (GET)
 const getAllFoundations=(callback)=>{
     const sql = "select * from foundations"
-     conn.query(sql,(suc,err,f)=>{
-        callback(suc,err)
+     conn.query(sql,(err,results)=>{
+        callback(err,results)
      })
     }
-// this function gets one of the foundations from the foundations table in my database (GET)   
+// this function gets one of the foundations from the foundations table in my database (GET)
     const getOneFoundation =(name,callback)=>{
-        const sql = `select * from foundations where name="${name}"`
-        conn.query(sql,(suc,err,f)=>{
-            callback(suc,err)
+        const sql = "select * from foundations where name = ?"
+        conn.query(sql,[name],(err,results)=>{
+            callback(err,results)
          })
     }
 //this function adds one foundation to the foundations table in my database (POST)
     const addOneFoundation=(foundation,callback)=>{
         const sql = `insert into foundations set ?`
-        conn.query(sql,foundation,(suc,err,f)=>{
-            callback(suc,err)})
+        conn.query(sql,foundation,(err,results)=>{
+            callback(err,results)})
     }
-//this function updates one of the foundations in the foundations table in my database (UPDATE)   
+//this function updates one of the foundations in the foundations table in my database (UPDATE)
     const updateOneFoundation=(updated,name,callback)=>{
-        const sql= `update foundations set ? where name="${name}"`
-        conn.query(sql,updated,(suc,err,f)=>{
-            callback(suc,err)}) 
+        const sql= "update foundations set ? where name = ?"
+        conn.query(sql,[updated,name],(err,results)=>{
+            callback(err,results)})
     }
 // This function deletes one of the foundations in the foundations table in my database (DELETE)
     const deleteOneFoundation=(name,callback)=>{
-     const sql=`delete from foundations where name="${name}"`
-     conn.query(sql,(suc,err,f)=>{
-        callback(suc,err)})
+     const sql="delete from foundations where name = ?"
+     conn.query(sql,[name],(err,results)=>{
+        callback(err,results)})
     }
     // I exported all of the functions to call them in the foundationsConn.js file
     module.exports={
