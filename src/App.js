@@ -1,35 +1,29 @@
 import './App.css';
-import React, { useEffect, useState } from 'react';
-import User from './components/user authentification/User';
-import Foundations from './components/foundations/Foundation.jsx';
-import axios from 'axios';
-import SearchBar from './components/search bar/SearchBar';
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Home from './pages/Home.jsx';
+import AccountStatus from './components/auth/AccountStatus.jsx';
+import Login from './components/auth/Login.jsx';
+import Signup from './components/auth/Signup.jsx';
+import VerifyOtp from './components/auth/VerifyOtp.jsx';
+import ForgotPassword from './components/auth/ForgotPassword.jsx';
+import ResetPassword from './components/auth/ResetPassword.jsx';
 
 function App() {
-  const[dataF,setDataF]=useState([])
-
-  //this function gets all the data from the foundation table abd sets it in the dataF hook
-  const fetchF=()=>{
-  axios.get("http://localhost:5000/foundations")
-  .then(suc=>{setDataF(suc.data)})
-  .catch(err=>console.log(err.message))
-  }
-  
-  useEffect(() => {
-    fetchF();
-  }, []);
-  
   return (
     <div className="App">
-    <h1>Ghribi Foundation</h1>
-       <User/>
-      <Foundations dataF={dataF} fetchF={fetchF}/>
-      <SearchBar setDataF={setDataF}/>
-       
-       
+      <AccountStatus />
+      <h1>Ghribi Foundation</h1>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/verify-otp" element={<VerifyOtp />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+      </Routes>
     </div>
   );
 }
 
 export default App;
-
