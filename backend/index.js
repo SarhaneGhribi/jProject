@@ -1,3 +1,4 @@
+require("dotenv").config()
 const express = require("express");
 const path = require('path');
 const app = express();
@@ -6,9 +7,12 @@ app.use(cors());
 app.use(express.json())
 const db= require("./foundations/foundationsConn.js")
 const dbDoners=require("./doners/donersConn.js")
+const authRoutes = require("./auth/authRoutes.js")
 
 const port = 5000;
 app.use(express.static(path.join(__dirname, '..', 'public')));
+// paths for auth
+app.use("/auth", authRoutes)
 // paths for foundations
 app.get("/foundations",db.getAll)
 app.get("/foundations/:name",db.getOne)
