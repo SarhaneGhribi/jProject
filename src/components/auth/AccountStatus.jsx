@@ -5,25 +5,25 @@ import { useAuth } from '../../context/AuthContext'
 function AccountStatus() {
     const { user, loading, logout } = useAuth()
 
-    if (loading) return null
+    if (loading) return <nav className="account-status" />
 
     if (user) {
         return (
-            <div className="account-status">
-                <span>Signed in as {user.email}</span>
+            <nav className="account-status">
+                <span className="account-email">{user.email}</span>
                 <Link to="/my-donations">My donations</Link>
-                <button type="button" onClick={logout}>
+                <button type="button" className="btn btn-ghost" onClick={logout}>
                     Log out
                 </button>
-            </div>
+            </nav>
         )
     }
 
     return (
-        <div className="account-status">
+        <nav className="account-status">
             <Link to="/login">Log in</Link>
-            <Link to="/signup">Sign up</Link>
-        </div>
+            <Link to="/signup" className="btn btn-primary">Sign up</Link>
+        </nav>
     )
 }
 

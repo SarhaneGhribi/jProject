@@ -1,0 +1,41 @@
+.my-donations {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.my-donations h2 {
+  color: var(--color-primary-dark);
+}
+
+.donations-total {
+  color: var(--color-text-muted);
+  margin-bottom: 1rem;
+}
+
+.donations-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.donations-table th,
+.donations-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.donations-table th {
+  background: var(--color-bg);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-text-muted);
+}
+
+.donations-table tr:last-child td {
+  border-bottom: none;
+}
