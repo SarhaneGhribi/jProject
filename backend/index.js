@@ -8,11 +8,14 @@ app.use(express.json())
 const db= require("./foundations/foundationsConn.js")
 const dbDoners=require("./doners/donersConn.js")
 const authRoutes = require("./auth/authRoutes.js")
+const donationsRoutes = require("./donations/donationsRoutes.js")
 
 const port = 5000;
 app.use(express.static(path.join(__dirname, '..', 'public')));
 // paths for auth
 app.use("/auth", authRoutes)
+// paths for donations
+app.use("/donations", donationsRoutes)
 // paths for foundations
 app.get("/foundations",db.getAll)
 app.get("/foundations/:name",db.getOne)

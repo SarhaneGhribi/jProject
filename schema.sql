@@ -89,6 +89,29 @@ CREATE TABLE IF NOT EXISTS `myfoundation`.`password_resets` (
 ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `myfoundation`.`donations`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `myfoundation`.`donations` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `user_id` INT NOT NULL,
+  `foundation_id` INT NOT NULL,
+  `amount` INT NOT NULL,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  INDEX `idx_donations_user` (`user_id` ASC),
+  INDEX `idx_donations_foundation` (`foundation_id` ASC),
+  CONSTRAINT `fk_donations_user`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `myfoundation`.`users` (`id`)
+    ON DELETE CASCADE,
+  CONSTRAINT `fk_donations_foundation`
+    FOREIGN KEY (`foundation_id`)
+    REFERENCES `myfoundation`.`foundations` (`idfoundations`)
+    ON DELETE CASCADE)
+ENGINE = InnoDB;
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
