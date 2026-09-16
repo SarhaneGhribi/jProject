@@ -15,10 +15,11 @@ USE `myfoundation` ;
 -- -----------------------------------------------------
 -- Table `myfoundation`.`foundations`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`foundations` (
+CREATE TABLE IF NOT EXISTS `myfoundation`.`foundations` (
   `idfoundations` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(70) NOT NULL,
   `funds` INT NOT NULL,
+  `logo` VARCHAR(255) NULL,
   PRIMARY KEY (`idfoundations`))
 ENGINE = InnoDB;
 
